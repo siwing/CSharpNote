@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+Console_HelloWorld/Console_HelloWorld/bin/
+Console_HelloWorld/Console_HelloWorld/obj/
+#Console_HelloWorld/.vs/
+
+**/.vs/
+#jupyter note/.vs/
+jupyter note/.ipynb_checkpoints/
