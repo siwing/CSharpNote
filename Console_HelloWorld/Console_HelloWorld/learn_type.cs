@@ -198,6 +198,80 @@ namespace Learn
             foreach (object o in list) Console.WriteLine(o);
         }
     }
+    class NullableType
+    {
+        /* C# 1.0 中是没有null类型的, 但是有些时候, 一些数据本身就是null的.
+         * 例如, 在关系数据库中, 一张表的某些字段可能允许存在null值.
+         * 所以, 如果将存在null值的数据表映射为C#的对象则会出错, 因为此时C#类对象的字段还不允许为null值.
+         * 
+         * 为了满足某些应用场景下的需求 (例如上述例子), C# 2.0 引入了"可空类型"(Nullable Type)的特性.
+         * 实际上, 可空类型是一个泛型, 即 Nullable<T>, 也属于值类型.
+         */
+        public static void Show()
+        {
+            // 定义一个int类型的可空类型
+            Nullable<int> a = null; // 此时, a还没有值
+            // 也可以这样定义
+            Nullable<int> b = new Nullable<int>();
+            // 还有更便捷的写法: 值类型后面加问号 表示可空类型 💡
+            int? c = null;  // 如果使用了以上写法, VS会提示还有更简单的写法
+            // 注意, 在方法中不能引用只声明但未定义的变量; C#只允许引用只声明但未定义的类变量
+
+            // 可空类型的HasValue方法表示变量是否为空
+            if (a.HasValue && b.HasValue && c.HasValue)
+            {
+                Console.WriteLine("a b c 都有值");
+                Console.WriteLine($"{a}-{b}-{c}");
+            }
+            else
+            {
+                Console.WriteLine("a b c 都为null");
+                Console.WriteLine($"{a}-{b}-{c}"); // "--"
+                Console.WriteLine($"默认值 {a.GetValueOrDefault()}");
+                Console.WriteLine($"默认值 {a.GetValueOrDefault(2)}");
+            }
+
+            a = 10; b = 100; c = 1000;
+            if (a.HasValue && b.HasValue && c.HasValue)
+            {
+                Console.WriteLine($"{a.Value}-{b.Value}-{c.Value}");
+            }
+        }
+    }
+    class NullCoalescingOperator
+    {
+        /* ?? 是空合并操作符 (null-coalescing operator) 
+         * null ?? 5  如果左边的值不为null, 返回左边的值, 如果左边的值为null, 返回右边的值
+         * 
+         * 在C＃7.3和更早版本中, ?? 运算符左侧的类型必须是"引用类型"或"可为空的值类型".
+         * 从C＃8.0开始, ?? 和 ??= 运算符左侧的类型不能为"不可为null的值类型".
+         */
+        public static void Show()
+        {
+            int? a = null;
+            int x = a ?? 5;
+            Console.WriteLine(x);
+            // int x = a ?? 5; 这行代码也可以用三目运算符 ?: 实现
+            // p=bool?A:B 当bool=true，p=表达式A, 当bool=false, p=表达式B。
+            x = a.HasValue ? a.Value : 5;
+
+            // 引用类型
+            string str1 = null;
+            string str2 = str1 ?? "右边的值";
+            Console.WriteLine(str2);
+
+            // 可以通过 == 判断变量是否为 null
+            if (str1 == null)
+            {
+                Console.WriteLine("str1 为 null");
+            }
+            if (a == null)
+            {
+                Console.WriteLine("a 为 null");
+            }
+        }
+    }
+    // TODO 可空类型的装箱和拆箱的操作
     class Type
     {
         public static void Show()
@@ -205,6 +279,8 @@ namespace Learn
             /* 使用匿名委托 */
             Util.PrintTitle(delegate () { AtomicType.Show(); }, "Type");
             Util.PrintTitle(delegate () { ConstAndReadOnlyType.Show(); }, "Const And ReadOnly Type");
+            Util.PrintTitle(delegate () { NullableType.Show(); }, "Nullable Type");
+            Util.PrintTitle(delegate () { NullCoalescingOperator.Show(); }, "Null-Coalescing Operator");
         }
     }
 }

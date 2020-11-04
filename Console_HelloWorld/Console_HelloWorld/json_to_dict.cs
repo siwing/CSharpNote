@@ -7,7 +7,6 @@ using System.IO;
 using System.Linq;
 
 
-
 namespace JsonIO
 {
     public class MyData
@@ -122,8 +121,9 @@ namespace JsonIO
         //}
 
         /* 可能是有效的 */
-        public static void TestDataSet()
+        public static void DeserializeToDataSet()
         {
+            // 原始示例
             string json = @"{'Table1': [{'id': 0, 'item': 'item 0'}, {'id': 1, 'item': 'item 1'}]}";
             DataSet dataSet = JsonConvert.DeserializeObject<DataSet>(json);
 
@@ -135,6 +135,40 @@ namespace JsonIO
             {
                 Console.WriteLine(row["id"] + " - " + row["item"]);
             }
+
+            // 示例2
+            json = @"{'Table1': [{'id': 0, 'item': 'item 0'}], 'Table2': [{'id': 1, 'item': 'item 1'}, {'id': 2, 'item': 'item 2'}]}";
+            dataSet = JsonConvert.DeserializeObject<DataSet>(json);
+            
+            dataTable = dataSet.Tables["Table1"];
+            foreach (DataRow row in dataTable.Rows)
+            {
+                Console.WriteLine(row["id"] + " - " + row["item"]);
+            }
+
+            dataTable = dataSet.Tables["Table2"];
+            foreach (DataRow row in dataTable.Rows)
+            {
+                Console.WriteLine(row["id"] + " - " + row["item"]);
+            }
+
+            // 示例3
+            //json = @"{'Table1': [{'id': 0, 'item': 'item 0'}], 'Table2': 'item2'";
+            json = @"{'Table1': [{'id': 0, 'item': 'item 0'}], 'Table2': ['item2']";
+            dataSet = JsonConvert.DeserializeObject<DataSet>(json);
+            dataTable = dataSet.Tables["Table1"];
+            foreach (DataRow row in dataTable.Rows)
+            {
+                Console.WriteLine(row["id"] + " - " + row["item"]);
+            }
+
+        }
+    }
+    public class DoForJson
+    {
+        public static void Show()
+        {
+            JsonNet.DeserializeToDataSet();
         }
     }
 }
