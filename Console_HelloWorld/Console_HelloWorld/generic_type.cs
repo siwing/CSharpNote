@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Threading;
+
+// TODO 型別參數的條件約束 (C# 程式設計手冊)  https://docs.microsoft.com/zh-tw/dotnet/csharp/programming-guide/generics/constraints-on-type-parameters
+
 
 namespace LearnGeneric
 {
@@ -11,8 +15,8 @@ namespace LearnGeneric
          * 因此, 如果要写一个数值求和 (整数和浮点数) 的方法, 有以下两种方式:
          *   1. 分别为整型参数和浮点型参数实现一个方法
          *   2. 只为浮点型参数实现一个方法, 对整型求和时, 先将整型参数转换为浮点型
-         * 第一种方式需要实现多个方法, 而这些方法又有很多相似的代码, 显然代码量更多, 不利于代码管理.
-         * 第二种方式涉及类型转换, 会存在性能损耗.
+         * 第1种方式需要实现多个方法, 而这些方法又有很多相似的代码, 显然代码量更多, 不利于代码管理.
+         * 第2种方式涉及类型转换, 会存在性能损耗.
          * 
          * 因此, C# 2.0 引入泛型解决以上问题. 
          * 泛型不是一个具体的类型, 在定义方法时, 将参数声明为泛型类型, 即未将形参限定为某一具体类型.
@@ -21,10 +25,7 @@ namespace LearnGeneric
          */
         public static void Show()
         {
-            /* 使用已有的泛型
-             * List 是一种容器类型, List<T> 是 .NET 库中实现的泛型类型
-            */
-
+            /* List 是一种容器类型, List<T> 是 .NET 库中实现的泛型类型 */
             List<int> intList = new List<int>(); // 定义List的元素为int类型
             intList.Add(3);
 
@@ -33,14 +34,14 @@ namespace LearnGeneric
         }
     }
     /* 自定义泛型类 */
-    public class Compare<T> where T : IComparable  // 注意 <T> 中的T也可以是其他标识符
+    public class Compare<T> where T : IComparable  // 注意 <T> 中的T也可以是其他标识符, T只是惯用标识符
     {
         /* T 指代一个具体的类型, 可以在Compare类内使用
         *  where 语句是对类型参数 T 的约束, 限制传入的具体类型必须继承于 IComparable 接口
         *  继承于 IComparable 接口的类型具有CompareTo方法
         */
 
-        // 使用泛型实现比较方法
+        // 泛型用在传入参数
         public static T CompareGeneric(T t1, T t2)
         {
             if (t1.CompareTo(t2) > 0)
@@ -53,6 +54,11 @@ namespace LearnGeneric
                 Console.WriteLine("{0} 比 {1} 大", t2, t1);
                 return t2;
             }
+        }
+        // 泛型用在返回值
+        public Tr Generic<Tr>(T b) where Tr : new()
+        {
+            return new Tr();
         }
         public static void Show()
         {

@@ -7,8 +7,7 @@ using System.IO;
 using System.Linq;
 
 
-
-namespace DataStruce
+namespace JsonIO
 {
     public class MyData
     {
@@ -52,6 +51,7 @@ namespace DataStruce
             public DateTime Expiry { set; get; }
             public string[] Sizes { set; get; }
         }
+        /* 序列化一个类对象 */
         public static void SerializeJSON()
         {
             Product product = new Product();
@@ -76,15 +76,16 @@ namespace DataStruce
             public string[] Genres { set; get; }
             public string[] ALLEN { set; get; }
         }
+        /* 反序列化到一个固定的类对象 */
         public static void DeserializeJSON()
         {
             string json = @"{'Name': 'Bad Boys','ReleaseDate': '1995-4-7T00:00:00', 'Genres': ['Action', 'Comedy']}";
             Movie m = JsonConvert.DeserializeObject<Movie>(json);
             Console.WriteLine($"{m.Name} {m.ReleaseDate} {m.Genres}");
         }
+        /* 反序列化到一个匿名类型 × */
         public static void DeserializeAnonymous()
         {
-            /* 不行 */
             var definition = new { Name = "" };
 
             string json1 = @"{'Name':'James'}";
@@ -99,6 +100,7 @@ namespace DataStruce
             Console.WriteLine(customer2.Name);
             // Mike
             
+            // json 中的变量可以比类型中的变量多, 但不能比类型中的变量少
             string json3 = @"{'Name': 'Bad Boys','ReleaseDate': '1995-4-7T00:00:00', 'Genres': ['Action', 'Comedy']}";
             var customer3 = JsonConvert.DeserializeAnonymousType(json3, definition);
             Console.WriteLine(customer3.Name);
@@ -119,8 +121,9 @@ namespace DataStruce
         //}
 
         /* 可能是有效的 */
-        public static void TestDataSet()
+        public static void DeserializeToDataSet()
         {
+            // 原始示例
             string json = @"{'Table1': [{'id': 0, 'item': 'item 0'}, {'id': 1, 'item': 'item 1'}]}";
             DataSet dataSet = JsonConvert.DeserializeObject<DataSet>(json);
 
@@ -132,6 +135,40 @@ namespace DataStruce
             {
                 Console.WriteLine(row["id"] + " - " + row["item"]);
             }
+
+            // 示例2
+            json = @"{'Table1': [{'id': 0, 'item': 'item 0'}], 'Table2': [{'id': 1, 'item': 'item 1'}, {'id': 2, 'item': 'item 2'}]}";
+            dataSet = JsonConvert.DeserializeObject<DataSet>(json);
+            
+            dataTable = dataSet.Tables["Table1"];
+            foreach (DataRow row in dataTable.Rows)
+            {
+                Console.WriteLine(row["id"] + " - " + row["item"]);
+            }
+
+            dataTable = dataSet.Tables["Table2"];
+            foreach (DataRow row in dataTable.Rows)
+            {
+                Console.WriteLine(row["id"] + " - " + row["item"]);
+            }
+
+            // 示例3
+            //json = @"{'Table1': [{'id': 0, 'item': 'item 0'}], 'Table2': 'item2'";
+            json = @"{'Table1': [{'id': 0, 'item': 'item 0'}], 'Table2': ['item2']";
+            dataSet = JsonConvert.DeserializeObject<DataSet>(json);
+            dataTable = dataSet.Tables["Table1"];
+            foreach (DataRow row in dataTable.Rows)
+            {
+                Console.WriteLine(row["id"] + " - " + row["item"]);
+            }
+
+        }
+    }
+    public class DoForJson
+    {
+        public static void Show()
+        {
+            JsonNet.DeserializeToDataSet();
         }
     }
 }

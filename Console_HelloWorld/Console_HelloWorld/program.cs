@@ -11,7 +11,8 @@ using Type = Learn.Type;
 using AtomicType = Learn.AtomicType;
 using LearnDelegate;
 using LearnGeneric;
-using DataStruce;
+using JsonIO;
+
 
 //tex:
 //Formula 1: $$(a+b)^2 = a^2 + 2ab + b^2$$
@@ -46,6 +47,7 @@ namespace Console_HelloWorld
             //printtitle(delegate () { genericclass.openorclose(); }, "泛型分类");
             //printtitle(delegate () { showstaticfieldingeneric.show(); }, "泛型的静态字段");
             StaticFieldInGeneric.Show();
+            DoForJson.Show();
         }
         static void private_constructor_for_single_instance()
         {

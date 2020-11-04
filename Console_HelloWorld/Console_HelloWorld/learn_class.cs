@@ -1,5 +1,6 @@
 ﻿using Markdig.Extensions.Tables;
 using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UtilityTool;
 
@@ -357,6 +358,44 @@ namespace Learn
         {
 
         }
+    }
+    /* 匿名类型 */
+    class AnonymousType
+    {
+        /* 匿名类型是 C# 3.0 加入的特性, 从 JavaScript 借鉴过来.
+         * 匿名类型什么都不做, 只用来储存一些数据.
+         * 因此, 匿名类型只能包含一个或多个公共只读属性, 不能包含其他类成员 (如方法、事件).
+         * 用来初始化属性的表达式不能为 null、匿名函数或指针类型.
+         */
+
+        // TODO 匿名类型（C# 编程指南）https://docs.microsoft.com/zh-cn/dotnet/csharp/programming-guide/classes-and-structs/anonymous-types
+        public static void Show()
+        {
+            var v = new { Amount = 108, Message = "Hello" };
+
+            // Rest the mouse pointer over v.Amount and v.Message in the following  
+            // statement to verify that their inferred types are int and string.  
+            Console.WriteLine(v.Amount + v.Message);
+        }
+    }
+    static class ExtensionMethod
+    {
+        /* 扩展方法是C# 3.0加入的特性.
+         * 扩展方法用于扩展已定义类型中的方法成员
+         * 在C# 3.0之前, 如果想为一个已有类型自定义含有特殊逻辑的新方法时, 你必须重新定义一个类型来继承已有类型, 以这种方式来添加方法.
+         * 如果基类有抽象方法, 则还要重新去实现这些抽象方法.
+         * 这样，为了扩展一个方法，我们需承担更多的因继承而产生的开销。使用继承来扩展现有类型总有点大材小用的感觉。并且值类型或密封类（不能被继承的类）等也不能被继承，不能由此而获得扩展。
+         * 于是，C#3.0提出了扩展方法，用它来为现有的类型添加方法，从而解决了使用继承进行扩展所带来的所有弊端。
+         * 
+         * 扩展方法必须在非泛型静态类中定义
+         */
+        //public static int JSum(this IEnumerable<int> source)
+        //{
+        //    if (source == null)
+        //    {
+
+        //    }
+        //}
     }
     class DoFeature
     {
