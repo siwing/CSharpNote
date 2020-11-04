@@ -8,7 +8,7 @@ using System.Linq;
 
 
 
-namespace DataStruce
+namespace JsonIO
 {
     public class MyData
     {
@@ -52,6 +52,7 @@ namespace DataStruce
             public DateTime Expiry { set; get; }
             public string[] Sizes { set; get; }
         }
+        /* 序列化一个类对象 */
         public static void SerializeJSON()
         {
             Product product = new Product();
@@ -76,15 +77,16 @@ namespace DataStruce
             public string[] Genres { set; get; }
             public string[] ALLEN { set; get; }
         }
+        /* 反序列化到一个固定的类对象 */
         public static void DeserializeJSON()
         {
             string json = @"{'Name': 'Bad Boys','ReleaseDate': '1995-4-7T00:00:00', 'Genres': ['Action', 'Comedy']}";
             Movie m = JsonConvert.DeserializeObject<Movie>(json);
             Console.WriteLine($"{m.Name} {m.ReleaseDate} {m.Genres}");
         }
+        /* 反序列化到一个匿名类型 × */
         public static void DeserializeAnonymous()
         {
-            /* 不行 */
             var definition = new { Name = "" };
 
             string json1 = @"{'Name':'James'}";
@@ -99,6 +101,7 @@ namespace DataStruce
             Console.WriteLine(customer2.Name);
             // Mike
             
+            // json 中的变量可以比类型中的变量多, 但不能比类型中的变量少
             string json3 = @"{'Name': 'Bad Boys','ReleaseDate': '1995-4-7T00:00:00', 'Genres': ['Action', 'Comedy']}";
             var customer3 = JsonConvert.DeserializeAnonymousType(json3, definition);
             Console.WriteLine(customer3.Name);

@@ -358,6 +358,25 @@ namespace Learn
 
         }
     }
+    /* 匿名类型 */
+    class AnonymousType
+    {
+        /* 匿名类型是 C# 3.0 加入的特性, 从 JavaScript 借鉴过来.
+         * 匿名类型什么都不做, 只用来储存一些数据.
+         * 因此, 匿名类型只能包含一个或多个公共只读属性, 不能包含其他类成员 (如方法、事件).
+         * 用来初始化属性的表达式不能为 null、匿名函数或指针类型.
+         */
+
+        // TODO 匿名类型（C# 编程指南）https://docs.microsoft.com/zh-cn/dotnet/csharp/programming-guide/classes-and-structs/anonymous-types
+        public static void Show()
+        {
+            var v = new { Amount = 108, Message = "Hello" };
+
+            // Rest the mouse pointer over v.Amount and v.Message in the following  
+            // statement to verify that their inferred types are int and string.  
+            Console.WriteLine(v.Amount + v.Message);
+        }
+    }
     class DoFeature
     {
         public static void Show()
