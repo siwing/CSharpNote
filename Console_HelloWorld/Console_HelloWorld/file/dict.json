@@ -1,0 +1,9 @@
+{
+  "objects": {
+    "ID": "int",
+    "Attr_1": "string",
+    "Attr_2": "int",
+    "Attr_3": "float",
+    "Attr.4": "int array"
+  },
+  "selected_cos_ids": "int array" }
