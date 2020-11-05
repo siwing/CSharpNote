@@ -24,11 +24,11 @@ namespace Console_HelloWorld
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World\n");
-            Type.Show();
-            Statement.Show();
-            DoFeature.Show();
-            DoDelegate.Show();
+            //Console.WriteLine("Hello World\n");
+            //Type.Show();
+            //Statement.Show();
+            //DoFeature.Show();
+            //DoDelegate.Show();
 
             /* 测试json */
             //MyData.Test();
@@ -46,7 +46,8 @@ namespace Console_HelloWorld
 
             //printtitle(delegate () { genericclass.openorclose(); }, "泛型分类");
             //printtitle(delegate () { showstaticfieldingeneric.show(); }, "泛型的静态字段");
-            StaticFieldInGeneric.Show();
+            
+            //StaticFieldInGeneric.Show();
             DoForJson.Show();
         }
         static void private_constructor_for_single_instance()

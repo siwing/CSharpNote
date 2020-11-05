@@ -167,7 +167,7 @@ namespace JsonIO
         }
         public static void DeserializeToDict()
         {
-            string jsonFilePath = @"D:\1.User\Desktop 2\Wiki\CSharpNote\Console_HelloWorld\Console_HelloWorld\file\json.json";
+            string jsonFilePath = @"C:\Users\two\Documents\git\CSharpNote\Console_HelloWorld\Console_HelloWorld\file\json.json";
             string jsonString = File.ReadAllText(jsonFilePath);
 
             var jsonObject = JObject.Parse(jsonString);
@@ -178,10 +178,6 @@ namespace JsonIO
                     properties.Add(jToken.Path, jToken.ToString());
                     return properties;
                 });
-            foreach (var item in jsonObject)
-            {
-                Console.WriteLine(item);
-            }
             foreach (var item in Dict)
             {
                 Console.WriteLine(item);
@@ -259,13 +255,15 @@ namespace JsonIO
     {
         public static void Show()
         {
-            JsonNet.DeserializeToDataSet();
+            //JsonNet.DeserializeToDataSet();
+
             // [{}] x
             JsonNet.DeserializeToDict();
             //JsonNet.DeserializeToDict2();
             // [{}] x
             //JsonNet.DeserializeCollection();
-            JsonNet.DeserializeToObject();
+            
+            //JsonNet.DeserializeToObject();
         }
     }
 }
