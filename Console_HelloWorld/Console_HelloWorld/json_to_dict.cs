@@ -1,8 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using Markdig.Extensions.DefinitionLists;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 
@@ -88,22 +90,22 @@ namespace JsonIO
         {
             var definition = new { Name = "" };
 
-            string json1 = @"{'Name':'James'}";
-            var customer1 = JsonConvert.DeserializeAnonymousType(json1, definition);
+            string json = @"{'Name':'James'}";
+            var customer = JsonConvert.DeserializeAnonymousType(json, definition);
 
-            Console.WriteLine(customer1.Name);
+            Console.WriteLine(customer.Name);
             // James
 
-            string json2 = @"{'Name':'Mike'}";
-            var customer2 = JsonConvert.DeserializeAnonymousType(json2, definition);
+            json = @"{'Name':'Mike'}";
+            customer = JsonConvert.DeserializeAnonymousType(json, definition);
 
-            Console.WriteLine(customer2.Name);
+            Console.WriteLine(customer.Name);
             // Mike
             
             // json 中的变量可以比类型中的变量多, 但不能比类型中的变量少
-            string json3 = @"{'Name': 'Bad Boys','ReleaseDate': '1995-4-7T00:00:00', 'Genres': ['Action', 'Comedy']}";
-            var customer3 = JsonConvert.DeserializeAnonymousType(json3, definition);
-            Console.WriteLine(customer3.Name);
+            json = @"{'Name': 'Bad Boys','ReleaseDate': '1995-4-7T00:00:00', 'Genres': ['Action', 'Comedy']}";
+            customer = JsonConvert.DeserializeAnonymousType(json, definition);
+            Console.WriteLine(customer.Name);
         }
         //public static void Test()
         //{
@@ -154,14 +156,103 @@ namespace JsonIO
 
             // 示例3
             //json = @"{'Table1': [{'id': 0, 'item': 'item 0'}], 'Table2': 'item2'";
-            json = @"{'Table1': [{'id': 0, 'item': 'item 0'}], 'Table2': ['item2']";
-            dataSet = JsonConvert.DeserializeObject<DataSet>(json);
-            dataTable = dataSet.Tables["Table1"];
-            foreach (DataRow row in dataTable.Rows)
-            {
-                Console.WriteLine(row["id"] + " - " + row["item"]);
-            }
+            //json = @"{'Table1': [{'id': 0, 'item': 'item 0'}], 'Table2': ['item2']";
+            //dataSet = JsonConvert.DeserializeObject<DataSet>(json);
+            //dataTable = dataSet.Tables["Table1"];
+            //foreach (DataRow row in dataTable.Rows)
+            //{
+            //    Console.WriteLine(row["id"] + " - " + row["item"]);
+            //}
 
+        }
+        public static void DeserializeToDict()
+        {
+            string jsonFilePath = @"D:\1.User\Desktop 2\Wiki\CSharpNote\Console_HelloWorld\Console_HelloWorld\file\json.json";
+            string jsonString = File.ReadAllText(jsonFilePath);
+
+            var jsonObject = JObject.Parse(jsonString);
+            var jTokens = jsonObject.Descendants().Where(p => !p.Any());
+            var Dict = jTokens.Aggregate(new Dictionary<string, string>(),
+                (properties, jToken) =>
+                {
+                    properties.Add(jToken.Path, jToken.ToString());
+                    return properties;
+                });
+            foreach (var item in jsonObject)
+            {
+                Console.WriteLine(item);
+            }
+            foreach (var item in Dict)
+            {
+                Console.WriteLine(item);
+            }
+        }
+        /* Simple Dict */
+        public static void DeserializeToDict2()
+        {
+            string jsonFilePath = @"D:\1.User\Desktop 2\Wiki\CSharpNote\Console_HelloWorld\Console_HelloWorld\file\json.json";
+            string jsonString = File.ReadAllText(jsonFilePath);
+            var Dict = JsonConvert.DeserializeObject<Dictionary<string, int>>(jsonString);
+        }
+        /* 反序列化到一个Collection × */
+        public static void DeserializeCollection()
+        {
+            string jsonFilePath = @"D:\1.User\Desktop 2\Wiki\CSharpNote\Console_HelloWorld\Console_HelloWorld\file\json.json";
+            string jsonString = File.ReadAllText(jsonFilePath);
+            List<string> videogames = JsonConvert.DeserializeObject<List<string>>(jsonString);
+        }
+        //public dynamic GetObject()
+        //{
+        //    dynamic d = new ExpandoObject();
+        //    // 将JSON字符串反序列化
+        //    JavaScriptSerializer s = new JavaScriptSerializer();
+        //    object resobj = s.DeserializeObject(this.innerJson);
+        //    // 拷贝数据
+        //    IDictionary<string, object> dic = (IDictionary<string, object>)resobj;
+        //    IDictionary<string, object> dicdyn = (IDictionary<string, object>)d;
+        //    foreach (var item in dic)
+        //    {
+        //        dicdyn.Add(item.Key, item.Value);
+        //    }
+        //    return d;
+        //}
+        public class Wrapper
+        {
+            [JsonProperty("records")]
+            public Dictionary<string, Record> Records { get; set; }
+        }
+        public class Record
+        {
+            [JsonProperty(PropertyName = "Value1")]
+            public string Value1 { get; set; }
+
+            [JsonProperty(PropertyName = "Value2")]
+            public string Value2 { get; set; }
+        }
+        public static void DeserializeToObject()
+        {
+            string json = @"{
+						""records"" : {
+							""123"": {
+								""Value1"": ""test"",
+								""Value2"": ""test2"",
+							},
+							""456"": {
+								""Value1"": ""test"",
+								""Value2"": ""test2"",
+							} 
+						}
+					}";
+
+            var wrapper = JsonConvert.DeserializeObject<Wrapper>(json);
+
+            foreach (var key in wrapper.Records.Keys)
+            {
+                var val = wrapper.Records[key];
+                Console.WriteLine(" - {0}", key);
+                Console.WriteLine("   - {0}", val.Value1);
+                Console.WriteLine("   - {0}", val.Value2);
+            }
         }
     }
     public class DoForJson
@@ -169,6 +260,15 @@ namespace JsonIO
         public static void Show()
         {
             JsonNet.DeserializeToDataSet();
+            // [{}] x
+            JsonNet.DeserializeToDict();
+            //JsonNet.DeserializeToDict2();
+            // [{}] x
+            //JsonNet.DeserializeCollection();
+            JsonNet.DeserializeToObject();
         }
     }
 }
+
+
+					
