@@ -24,11 +24,11 @@ namespace Console_HelloWorld
     {
         static void Main(string[] args)
         {
-            //Console.WriteLine("Hello World\n");
-            //Type.Show();
-            //Statement.Show();
-            //DoFeature.Show();
-            //DoDelegate.Show();
+            Console.WriteLine("Hello World\n");
+            Type.Show();
+            Statement.Show();
+            DoFeature.Show();
+            DoDelegate.Show();
 
             /* 测试json */
             //MyData.Test();
@@ -46,9 +46,9 @@ namespace Console_HelloWorld
 
             //printtitle(delegate () { genericclass.openorclose(); }, "泛型分类");
             //printtitle(delegate () { showstaticfieldingeneric.show(); }, "泛型的静态字段");
-            
+
             //StaticFieldInGeneric.Show();
-            DoForJson.Show();
+            //DoForJson.Show();
         }
         static void private_constructor_for_single_instance()
         {
@@ -56,7 +56,15 @@ namespace Console_HelloWorld
 
             Console.WriteLine("类实例的Name属性为：{0}", person.Name);
         }
-
+        static void ShowHistory()
+        {
+            /* C# 1.0 委托, 事件
+             * C# 2.0 泛型, 可空类型, 匿名方法, 迭代器
+             * C# 3.0 匿名类型, Lambda表达式, 扩展方法, 对象集合初始化, 自动实现属性, 查询表达式, 表达式树, 分部类和分部方法, Linq
+             * C# 4.0 动态绑定, 命名参数, 可选参数, 泛型的协变和逆变, 互操作性
+             * C# 5.0 异步和等待调用方信息
+             */
+        }
     }
 }
 

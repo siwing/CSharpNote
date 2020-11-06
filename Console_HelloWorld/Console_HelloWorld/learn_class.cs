@@ -378,6 +378,9 @@ namespace Learn
             Console.WriteLine(v.Amount + v.Message);
         }
     }
+    // TODO 闭包
+    /* 迭代器 */
+
     static class ExtensionMethod
     {
         /* 扩展方法是C# 3.0加入的特性.

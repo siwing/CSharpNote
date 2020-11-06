@@ -271,7 +271,54 @@ namespace Learn
             }
         }
     }
-    // TODO 可空类型的装箱和拆箱的操作
+    /* 可空类型的装箱和拆箱 */
+    class NullTypeConvert
+    {
+        /* 把一个可空类型的变量赋值给引用类型变量,
+         * 如果可空类型为null, null则可以直接赋给引用类型变量, 
+         * 如果可空类型不为null, CLR则从可空类型对象中获取值, 并对该值进行装箱.
+         */
+        public static void Show()
+        {
+            int? notNull = 5;
+            int? beNull = null;
+            object obj;
+            int value;
+
+            Console.WriteLine($"notNull 的类型为 {notNull.GetType()}");
+            try
+            {
+                beNull.GetType();
+                //Console.WriteLine($"beNull 的类型为 {beNull.GetType()}");
+            }
+            catch (NullReferenceException e)
+            {
+                // 对为 null 的变量调用方法将出现异常
+                Console.WriteLine($"无法获取 beNull 的类型, 因为 beNull 为 null");
+            }
+
+            obj = notNull; // 装箱
+            Console.WriteLine($"notNull 装箱后的类型为: {obj.GetType()}");
+            value = (int)obj; // 拆箱后变成非可空值类型
+            notNull = (int?)obj; // 拆箱后变成可空值类型
+
+            obj = beNull; //装箱
+            Console.WriteLine($"beNull 装箱后, obj是否为null: {obj==null}");
+
+            try
+            {
+                // 将 null 拆箱为 非可空类型 将出现异常
+                value = (int)obj;
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine("不能将 null 拆箱为非可空类型");
+            }
+            
+            notNull = (int?)obj;
+            Console.WriteLine($"beNull 拆箱后, notNull是否为null: {notNull == null}");
+        }
+    }
     class Type
     {
         public static void Show()
@@ -281,8 +328,7 @@ namespace Learn
             Util.PrintTitle(delegate () { ConstAndReadOnlyType.Show(); }, "Const And ReadOnly Type");
             Util.PrintTitle(delegate () { NullableType.Show(); }, "Nullable Type");
             Util.PrintTitle(delegate () { NullCoalescingOperator.Show(); }, "Null-Coalescing Operator");
+            Util.PrintTitle(delegate () { NullTypeConvert.Show(); }, "Null Type Convert");
         }
     }
 }
-
-
